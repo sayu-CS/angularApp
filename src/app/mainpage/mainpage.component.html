@@ -1,0 +1,108 @@
+<div>
+  <app-logout-nav></app-logout-nav>
+  <div class="grid grid-cols-2 gap-4">
+    <div class="d-flex my-auto align-items-center h-screen">
+      <form class="p-3 rounded-lg  mx-auto" [formGroup]="mainPageForm" (ngSubmit)="onTaskAdded()">
+        <mat-form-field class="w-full">
+          <mat-label>Heading</mat-label>
+          <input matInput formControlName="heading" type="text" >
+        </mat-form-field>
+        <br><br>
+        <mat-form-field class="w-full">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" type="text">
+        </mat-form-field>
+        <br><br>
+        <button (click)="onFormClicked()" class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500  text-white py-2 px-4 rounded-lg" type="submit"  mat-raised-button>Add Your Task</button>
+      </form>
+      <hr>
+      <hr>
+      <hr>
+      <p class="font-medium" *ngIf ="translation" >The data has been translated into Deutch as: </p>
+      <p class="font-medium" *ngIf ="translation" >Description,Heading </p>
+      <p class="font-medium" *ngIf ="translation" >{{this.translated}}</p>
+    </div>
+    
+    <div class="col-span-1 bg-gradient-to-r from-sky-500 to-indigo-500 h-auto">
+      <div class="flex justify-center">
+        <form class="w-full max-w-sm" [formGroup]="searchForm" (ngSubmit)="onSearched()">
+          <div class="relative">
+            <input formControlName="search" type="text" class="w-full p-4 rounded-lg shadow-lg  focus:outline-none" placeholder="Search...">
+            <button class="absolute top-0 right-0 p-4 rounded-lg  bg-gray-200 text-dark hover:bg-green-600">Search {{searchToggle? 'Off': 'On'}} </button>
+            
+          </div>
+        </form>
+      </div>
+      <!--Search ON/OFF-->
+      <div *ngIf="searchToggle">
+      <div class="m-4 p-4 bg-green-500 text-white rounded-lg shadow-md" role="alert" *ngFor="let datas of filteredData">
+        <div class="flex">
+          <div class="py-1">
+            <img src='https://random.imagecdn.app/500/150' class="w-12 h-12 rounded-full">
+          </div>
+          <div class="ml-4 mr-auto">
+            <p class="font-medium" *ngIf ="!displayEditForm || datas.id!==storeId" >{{datas.heading}}</p>
+            <p class="text-sm" *ngIf ="!displayEditForm || datas.id!==storeId " >{{datas.description}}</p>
+
+            <form *ngIf ="displayEditForm && datas.id===storeId" class="p-3 rounded-lg  mx-auto" [formGroup]="editForm" (ngSubmit)="onTaskAddedAgain(datas.id, datas.heading, datas.description)">
+              <mat-form-field class="w-full">
+                <mat-label>{{datas.heading}}</mat-label>
+                <input matInput formControlName="heading" type="text">
+              </mat-form-field>
+              <br><br>
+              <mat-form-field class="w-full">
+                <mat-label>{{datas.description}}</mat-label>
+                <input matInput formControlName="description" type="email">
+              </mat-form-field>
+              <br><br>
+              <button  class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500  text-white py-2 px-4 rounded-lg" mat-raised-button>Edit Your Task</button>
+            </form>
+          </div>
+          <div>
+            <button class="text-white font-medium hover:text-gray-300"(click)="onDelete(datas.id)">Delete</button>
+            <hr>
+            <button class="text-white font-medium hover:text-gray-300" (click)="onEdit(datas.id )">Edit</button>
+            <hr>
+            <button class="text-white font-medium hover:text-gray-300">Translate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <hr>
+      <!--Normal-->
+      <div class="m-4 p-4 bg-green-500 text-white rounded-lg shadow-md" role="alert" *ngFor="let datas of data | async as resolvedData">
+        <div class="flex">
+          <div class="py-1">
+            <img src='https://random.imagecdn.app/500/150' class="w-12 h-12 rounded-full">
+          </div>
+          <div class="ml-4 mr-auto">
+            <p class="font-medium" *ngIf ="!displayEditForm || datas.id!==storeId" >{{datas.heading}}</p>
+            <p class="text-sm" *ngIf ="!displayEditForm || datas.id!==storeId " >{{datas.description}}</p>
+            
+            <form *ngIf ="displayEditForm && datas.id===storeId" class="p-3 rounded-lg  mx-auto" [formGroup]="editForm" (ngSubmit)="onTaskAddedAgain(datas.id, datas.heading, datas.description)">
+              <mat-form-field class="w-full">
+                <mat-label>{{datas.heading}}</mat-label>
+                <input matInput formControlName="heading" type="text">
+              </mat-form-field>
+              <br><br>
+              <mat-form-field class="w-full">
+                <mat-label>{{datas.description}}</mat-label>
+                <input matInput formControlName="description" type="email">
+              </mat-form-field>
+              <br><br>
+              <button  class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500  text-white py-2 px-4 rounded-lg" mat-raised-button>Edit Your Task</button>
+            </form>
+          </div>
+          <div>
+            <button class="text-white font-medium hover:text-gray-300"(click)="onDelete(datas.id)">Delete</button>
+            <hr>
+            <button class="text-white font-medium hover:text-gray-300" (click)="onEdit(datas.id )">Edit</button>
+            <hr>
+            <button *ngIf="!translation || datas.id!==this.storeTranslationID" class="text-white font-medium hover:text-gray-300"(click)="onTranslate(datas.heading,datas.description,data.id)">Translate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

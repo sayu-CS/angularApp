@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<div class="flex h-screen items-center justify-center">
+<!--Confirm Email-->
+<form class="email bg-white p-6 rounded-lg shadow-md w-full max-w-sm" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email" [errorStateMatcher]="emailCheckMatcher">
+      <mat-hint>Please place your Email.</mat-hint>
+      <mat-error *ngIf="signUpForm.get('email').hasError('email') && !signUpForm.get('email').hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="signUpForm.get('email').hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+<!--Password-->
+    <mat-form-field class="width">
+        <mat-label>Password</mat-label>
+        <input #password (input)="strengthChecker()"matInput [type]="hide ? 'password' : 'text'"
+        matInput formControlName="password" >
+        <button mat-icon-button matSuffix  (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-hint>Create your Password.</mat-hint>
+        <mat-error *ngIf="signUpForm.get('password').hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="!passwrd">
+        <p>Please enter a valid password.</p>
+          <p>* Password must have a UpperCase.</p>
+          <p>* Password must have a Number.</p>
+          <p>* Password must have 8 Char.</p>
+      </mat-error>
+<!--Confirm password-->
+<ng-container *ngIf="confirmPassword">
+      <mat-form-field class="width">
+        <mat-label>Please Confirm Your Password</mat-label>
+        <input (input)="passwordChecker()" type="password"
+        matInput formControlName="confirmPassword" >
+        <mat-hint>Confirm your Password.</mat-hint>
+        <mat-error *ngIf="signUpForm.get('confirmPassword').hasError('required')">
+            Please Confirm your<strong>password</strong>
+          </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="!matched">
+        <p>* The Passwords Do not Match.</p>
+      </mat-error>
+</ng-container >
+<button *ngIf="matched" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" type="submit" >
+    Submit
+  </button>
+  <a routerLink="/login" class="ml-60">Already signed up?</a>
+  </form>
+  </div>

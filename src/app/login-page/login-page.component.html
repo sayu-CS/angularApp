@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<div class="flex h-screen items-center justify-center">
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="email bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+    <mat-form-field class="width">
+    <mat-label>Please Type In Your <strong>Email</strong></mat-label>
+    <input type="email"
+    matInput formControlName="email" >
+  </mat-form-field>
+  <mat-error *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').hasError('touched')">
+    <p>Email Not added</p>
+  </mat-error>
+  
+  <mat-form-field class="width">
+    <mat-label>Please Type In Your <strong>Password</strong></mat-label>
+    <input type="password"
+    matInput formControlName="password" >
+  </mat-form-field>
+  <mat-error *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').hasError('touched')">
+  </mat-error>
+  <button *ngIf="true" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" type="submit" >
+    Submit
+  </button>
+  <a routerLink="/signup" class="ml-60">Not signed up?</a>
+</form>
+</div>
