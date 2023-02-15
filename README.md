@@ -1,3 +1,11 @@
+#How to start
+Clone the file in your local system
+-- Go to the terminal and into the folder where you have cloned the file
+-- Add the required packeges from below
+npm install 
+
+once angular is attached Download the laravel file from myusername/laravel file
+composer install
 # Project
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.3.
