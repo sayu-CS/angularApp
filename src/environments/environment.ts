@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    domain: 'http://localhost:8000/api/',
+    domain: 'https://newbackend-fcpkjopm2a-uc.a.run.app/api/',
     API_KEY: 'AIzaSyCYhZbS8_ukfb0zv8HX__-MVUEJMVWULIg'
   };
